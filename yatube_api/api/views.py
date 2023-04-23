@@ -13,7 +13,7 @@
 #   -- auth, request.user = obj.user
 
 from django.shortcuts import get_object_or_404
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, filters
 from rest_framework.pagination import LimitOffsetPagination
 
 from posts.models import Post, Group
@@ -59,6 +59,8 @@ class CommentViewSet(viewsets.ModelViewSet):
 
 class FollowViewSet(viewsets.ModelViewSet):
     serializer_class = FollowSerializer
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('user__followers', )
 
     def get_queryset(self):
         user = self.request.user
