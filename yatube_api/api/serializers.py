@@ -2,7 +2,7 @@ from rest_framework import serializers
 from rest_framework.relations import SlugRelatedField
 
 
-from posts.models import Comment, Post, Follow
+from posts.models import Comment, Post, Follow, Group
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -23,9 +23,15 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ('id', 'author', 'post', 'text', 'created')
 
 
+class GroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Group
+        fields = ('title', 'slug', 'description')
+
+
 class FollowSerializer(serializers.ModelSerializer):
-    user = SlugRelatedField(slug_field='username')
-    following = SlugRelatedField(slug_field='username')
+    user = SlugRelatedField(slug_field='username', read_only=True)
+    following = SlugRelatedField(slug_field='username', read_only=True)
 
     class Meta:
         model = Follow
@@ -34,6 +40,6 @@ class FollowSerializer(serializers.ModelSerializer):
     # возможно потребуется UniqueTogetherValidator, если недостаточно ограничений на уровне модели
 
     def validate(self, data):
-        if data['user'] == data['following']:
-            raise serializers.ValidationError("Can't subscribe on yourself")
+        if data.get('user') == data.get('following'):
+            raise serializers.ValidationError("Can't subscribe to yourself")
         return data

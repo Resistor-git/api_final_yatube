@@ -6,7 +6,7 @@ User = get_user_model()
 
 class Post(models.Model):
     text = models.TextField()
-    pub_date = models.DateTimeField(auto_now_add=True)
+    pub_date = models.DateTimeField('Дата публикации', auto_now_add=True)
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='posts')
     image = models.ImageField(
@@ -26,7 +26,8 @@ class Comment(models.Model):
     post = models.ForeignKey(
         Post, on_delete=models.CASCADE, related_name='comments')
     text = models.TextField()
-    created = models.DateTimeField(auto_now_add=True, db_index=True)
+    created = models.DateTimeField(
+        'Дата добавления', auto_now_add=True, db_index=True)
 
 
 class Group(models.Model):
@@ -59,7 +60,7 @@ class Follow(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['author', 'follower'],
+            models.UniqueConstraint(fields=['user', 'following'],
                                     name='unique_follow')
         ]
         verbose_name = 'Subscription'
