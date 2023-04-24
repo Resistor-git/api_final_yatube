@@ -48,7 +48,6 @@ class Comment(models.Model):
 
 
 class Follow(models.Model):
-    # возможно в related_name перепутаны подписчики и авторы
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,

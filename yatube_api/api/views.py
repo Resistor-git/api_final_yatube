@@ -1,17 +1,3 @@
-# TODO:
-# Post -list (get, post)
-#   -- auth or readonly
-#   -- limit, offcet
-# Post -detail (get, post, patch, delete)
-#   -- owner
-# Comment -list (get, post)
-# Comment -detail (get, post, patch, delete)
-#  -- owner
-# Follow -list (get)
-#   -- auth(!)
-# Follow -detail ((get, post, patch, delete)
-#   -- auth, request.user = obj.user
-
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, permissions, filters
 from rest_framework.pagination import LimitOffsetPagination
@@ -24,6 +10,11 @@ from api.permissions import IsAuthorOrReadOnly
 
 
 class PostViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet to create, retrieve, update and delete posts.
+    Author is provided automatically from request.
+    Posts can be modified or deleted only by their authors.
+    """
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [IsAuthorOrReadOnly]
@@ -34,12 +25,22 @@ class PostViewSet(viewsets.ModelViewSet):
 
 
 class GroupViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    ViewSet to retrieve groups.
+    Groups can not be created or changed using API.
+    """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class CommentViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet to create, retrieve, update and delete comments.
+    Comment can be created only for existing Post.
+    Author is provided automatically from request.
+    Comments can be modified or deleted only by their authors.
+    """
     serializer_class = CommentSerializer
     permission_classes = [IsAuthorOrReadOnly]
 
@@ -58,10 +59,14 @@ class CommentViewSet(viewsets.ModelViewSet):
 
 
 class FollowViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet to create, retrieve, update and delete subscriptions (follows).
+    Follows are available only for authenticated users.
+    """
     serializer_class = FollowSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['following__username']
- 
+
     def get_queryset(self):
         user = self.request.user
         return user.subscriptions.all()
