@@ -42,7 +42,7 @@ class FollowSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Follow
-        fields = ('user', 'following')
+        fields = ('id', 'user', 'following')
         validators = [
             UniqueTogetherValidator(
                 queryset=Follow.objects.all(),

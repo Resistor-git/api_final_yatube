@@ -26,7 +26,7 @@ from api.permissions import IsAuthorOrReadOnly
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    permission_classes = (IsAuthorOrReadOnly,)
+    permission_classes = [IsAuthorOrReadOnly]
     pagination_class = LimitOffsetPagination
 
     def perform_create(self, serializer):
@@ -59,9 +59,9 @@ class CommentViewSet(viewsets.ModelViewSet):
 
 class FollowViewSet(viewsets.ModelViewSet):
     serializer_class = FollowSerializer
-    filter_backends = (filters.SearchFilter,)
-    search_fields = ('user__followers', )
-
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['following__username']
+ 
     def get_queryset(self):
         user = self.request.user
         return user.subscriptions.all()
