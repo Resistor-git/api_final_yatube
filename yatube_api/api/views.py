@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import viewsets, permissions, filters
+from rest_framework import viewsets, permissions, filters, mixins
 from rest_framework.pagination import LimitOffsetPagination
 
 from posts.models import Post, Group
@@ -7,6 +7,12 @@ from api.serializers import (
     PostSerializer, CommentSerializer, FollowSerializer, GroupSerializer
 )
 from api.permissions import IsAuthorOrReadOnly
+
+
+class BaseCreateRetrieveViewSet(mixins.CreateModelMixin, mixins.ListModelMixin,
+                                viewsets.GenericViewSet):
+    """Base class to create or get a list of objects."""
+    pass
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -58,9 +64,9 @@ class CommentViewSet(viewsets.ModelViewSet):
         )
 
 
-class FollowViewSet(viewsets.ModelViewSet):
+class FollowViewSet(BaseCreateRetrieveViewSet):
     """
-    ViewSet to create, retrieve, update and delete subscriptions (follows).
+    ViewSet to retrieve and create subscriptions (follows).
     Follows are available only for authenticated users.
     """
     serializer_class = FollowSerializer
