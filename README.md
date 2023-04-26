@@ -9,16 +9,25 @@ API позволяет производить CRUD операции над вы�
 создание адресов и представлений для обработки запросов в соответсвии с
 документацией (см. http://127.0.0.1:8000/redoc/ после запуска сервера).
 
-## Как запустить проект.
+## Как запустить проект
 Клонировать репозиторий:
+
 `git@github.com:Resistor-git/api_final_yatube.git`
+
 Перейти в репозиторий в командной строке:
+
 `cd api_final_yatube`
+
 Создать и активировать виртуальное окружение:
+
 Linux `python3 -m venv venv`
+
 Windows `py -m venv venv`
+
 Установить зависимости из requirements.txt:
+
 Linux
+
 ```
 python3 -m pip install --upgrade pip
 pip install -r requirements.txt
@@ -40,7 +49,7 @@ Windows
 py manage.py migrate
 py manage.py runserver
 ```
-## Примеры основных запросов.
+## Примеры основных запросов
 ### Получение списка постов:
 GET `/api/v1/posts/`
 Опциональные параметры пагинации:
@@ -115,19 +124,32 @@ POST `/api/v1/jwt/create/`
 
 ## Стек
 Бэкенд:
+
 [Django==3.2.16](https://docs.djangoproject.com/en/3.2/)
+
 [djangorestframework==3.12.4](https://www.django-rest-framework.org/)
+
 Авторизация:
+
 [djangorestframework-simplejwt==4.7.2](https://django-rest-framework-simplejwt.readthedocs.io/en/latest/index.html)
+
 [PyJWT==2.1.0](https://pyjwt.readthedocs.io/en/stable/)
+
 Тестирование:
+
 [pytest==6.2.4](https://docs.pytest.org/en/6.2.x/)
+
 [pytest-pythonpath==0.7.3](https://pypi.org/project/pytest-pythonpath/)
+
 [pytest-django==4.4.0](https://pytest-django.readthedocs.io/en/latest/)
+
 Работа с изображениями:
+
 [Pillow==9.3.0](https://pillow.readthedocs.io/en/stable/)
+
 Прочее:
+
 [requests==2.26.0](https://pypi.org/project/requests/2.26.0/)
 
-## Автор.
+## Автор
 Resistor ([GitHub](https://github.com/Resistor-git/))
